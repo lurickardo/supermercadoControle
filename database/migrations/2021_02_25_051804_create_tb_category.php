@@ -14,7 +14,7 @@ class CreateTbCategory extends Migration
     public function up()
     {
         Schema::create('tb_category', function (Blueprint $table) {
-            $table->id('cd_category');
+            $table->id('id_category');
             $table->string('nm_title', 50);
             $table->timestamps();
         });

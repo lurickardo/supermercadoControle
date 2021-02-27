@@ -14,9 +14,9 @@ class CreateTbSubcategory extends Migration
     public function up()
     {
         Schema::create('tb_subcategory', function (Blueprint $table) {
-            $table->id('cd_subcategory');
-            $table->unsignedBigInteger('cd_category');
-            $table->foreign('cd_category')->references('cd_category')->on('tb_category');
+            $table->id('id_subcategory');
+            $table->unsignedBigInteger('id_category');
+            $table->foreign('id_category')->references('id_category')->on('tb_category');
             $table->string('nm_title', 50);
             $table->timestamps();
         });
