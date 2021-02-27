@@ -14,17 +14,17 @@ class CreateTbProduct extends Migration
     public function up()
     {
         Schema::create('tb_product', function (Blueprint $table) {
-            $table->id('cd_product');
-            $table->unsignedBigInteger('cd_category');
-            $table->foreign('cd_category')->references('cd_category')->on('tb_category');
-            $table->unsignedBigInteger('cd_subcategory');
-            $table->foreign('cd_subcategory')->references('cd_subcategory')->on('tb_subcategory');
+            $table->id('id_product');
+            $table->unsignedBigInteger('id_category');
+            $table->foreign('id_category')->references('id_category')->on('tb_category');
+            $table->unsignedBigInteger('id_subcategory');
+            $table->foreign('id_subcategory')->references('id_subcategory')->on('tb_subcategory');
             $table->string('nm_title', 50);
-            $table->string('nm_description', 200);
+            $table->string('ds_product', 1000);
             $table->string('nm_image', 100);
             $table->decimal('vl_product', 6, 2);
             $table->string('nm_tag', 100)->nullable();
-            $table->char('ic_status', 1)->default('A');
+            $table->char('ck_status', 1)->default('A');
             $table->timestamps();
         });
     }
