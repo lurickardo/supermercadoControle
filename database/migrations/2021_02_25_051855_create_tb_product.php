@@ -21,9 +21,9 @@ class CreateTbProduct extends Migration
             $table->foreign('id_subcategory')->references('id_subcategory')->on('tb_subcategory');
             $table->string('nm_title', 50);
             $table->string('ds_product', 1000);
-            $table->string('nm_image', 100);
+            $table->string('nm_image')->nullable();
             $table->decimal('vl_product', 6, 2);
-            $table->string('nm_tag', 100)->nullable();
+            $table->json('nm_tag')->nullable();
             $table->char('ck_status', 1)->default('A');
             $table->timestamps();
         });

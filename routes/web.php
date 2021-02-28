@@ -29,6 +29,7 @@ Route::prefix('subcategory')->group(function () {
     Route::get('/update/{id}', [SubcategoryController::class, 'edit'])->middleware('auth');
     Route::put('/update/alter/{id}', [SubcategoryController::class, 'update'])->middleware('auth');
     Route::delete('/delete/{id}', [SubcategoryController::class, 'destroy'])->middleware('auth');
+    Route::get('/listByCategory/{idCategory}', [SubcategoryController::class, 'listSubcategoryByCategory'])->middleware('auth');
 });
 
 Route::prefix('product')->group(function () {

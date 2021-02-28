@@ -4,7 +4,7 @@
             <div class="card-body text-left">
                 <div class="d-flex bd-highlight mb-4">
                     <div class="mr-auto p-2 bd-highlight">
-                        <h5 class="card-title">Cadastrar produtos</h5>
+                        <h5 class="card-title">Cadastrar produto</h5>
                     </div>
                     <div class="p-2 bd-highlight">
                         <a href="/product">
@@ -20,7 +20,7 @@
                     </div>
                     <div class="form-group sm:my-2">
                         <label for="category">Categoria:</label>
-                        <select class="form-control" id="idCategory" name="idCategory">
+                        <select class="form-control" id="idCategory" name="idCategory" onchange="listSubcategories(this.value)">
                             <option value="">Selecione uma categoria</option>
                             @foreach($categories as $category)
                             <option value={{$category->id_category}}>{{$category->nm_title}}</option>
@@ -35,14 +35,14 @@
                     </div>
                     <div class="form-group sm:my-2">
                         <label for="vlProduct">Valor: </label>
-                        <input type="text" class="form-control" name="vlProduct" id="vlProduct" placeholder="Digite valor do produto" maxlength="9">
+                        <input type="text" class="form-control" name="vlProduct" id="vlProduct" placeholder="Digite valor do produto" maxlength="7">
                     </div>
                     <div class="form-group sm:my-2">
                         <label for="tagsProduct">Tags: </label>
                         <div class="input-group mb-3">
                             <input type="text" class="form-control" name="tag" id="tag" placeholder="Insira uma tag" aria-describedby="basic-addon2">
                             <div class="input-group-append">
-                                <button type="submit" class="input-group-text btn-primary" id="basic-addon2">Inserir</span>
+                                <button type="button" class="input-group-text btn-primary" onclick="insertTag()">Inserir</span>
                             </div>
                         </div>
                         <div class="alert alert-secondary" role="alert" id="listTags">
@@ -63,6 +63,9 @@
                             <option value="A">Ativo</option>
                             <option value="I">Inativo</option>
                         </select>
+                    </div>
+                    <div class="form-group sm:my-2">
+                        <div class="g-recaptcha" data-sitekey="{{env('CAPTCHA_KEY')}}"></div>
                     </div>
                     <input type="submit" class="btn btn-primary sm:my-2" value="Cadastrar">
                 </form>
@@ -85,10 +88,6 @@
         </div>
     </div>
     @endif
-    <script>
-        $(document).ready(function() {
-            $('#responseModal').modal('show');
-        });
-        CKEDITOR.replace('dsProduct');
-    </script>
+    <script src="{{ asset('js/response.js') }}"></script>
+    <script src="{{ asset('js/product/script.js') }}"></script>
 </x-app-layout>

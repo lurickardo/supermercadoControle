@@ -22,6 +22,7 @@
                                 <th scope="col">Subcategoria</th>
                                 <th scope="col">Valor</th>
                                 <th scope="col">Tags</th>
+                                <th scope="col">Imagem</th>
                                 <th scope="col">Status</th>
                                 <th scope="col">Descrição</th>
                                 <th scope="col">Editar</th>
@@ -35,11 +36,18 @@
                                 <td>{{$product->nm_title}}</td>
                                 <td>{{$product->Category->id_category}} - {{$product->Category->nm_title}}</td>
                                 <td>{{$product->Subcategory->id_subcategory}} - {{$product->Subcategory->nm_title}}</td>
-                                <td>{{$product->vl_product}}</td>
-                                <td>{{$product->nm_tag}}</td>
-                                <td>{{$product->ck_status}}</td>
-                                <td>{{$product->nm_description}}</td>
+                                <td>{{str_replace(".",",", $product->vl_product)}}</td>
                                 <td>
+                                    @foreach(json_decode($product->nm_tag) as $tag)
+                                    <span class="badge badge-pill badge-primary bg-primary sm:mx-1">{{$tag}}</span>
+                                    @endforeach
+                                </td>
+                                <td>
+                                    <img src="{{env('APP_URL')}}/storage/{{$product->nm_image}}" width="100">
+                                </td>
+                                <td>{{$product->ck_status === "A" ? "Ativo" : "Inativo"}}</td>
+                                <td>{!! $product->ds_product !!}</td>
+                                <td> 
                                     <form method="GET" action="/product/update/{{$product->id_product}}">
                                         <button type="submit" class="btn btn-outline-primary">
                                             <i class="far fa-edit"></i>
@@ -59,6 +67,12 @@
                             @endforeach
                         </tbody>
                     </table>
+                    <a href="{{env('APP_URL')}}/storage/listProducts/lista_de_produtos.csv" class="text-warning">
+                        <button type="submit" class="btn btn-outline-primary">Baixar lista (CSV) <i class="fas fa-download"></i></button>
+                    </a>
+                    <a href="{{env('APP_URL')}}/storage/listProducts/lista_de_produtos.pdf" class="text-warning" target="_blank">
+                        <button type="submit" class="btn btn-outline-primary">Baixar lista (PDF) <i class="fas fa-download"></i></button>
+                    </a>
                 </div>
             </div>
         </div>
@@ -77,9 +91,5 @@
         </div>
     </div>
     @endif
-    <script>
-        $(document).ready(function() {
-            $('#responseModal').modal('show');
-        });
-    </script>
+    <script src="{{ asset('js/response.js') }}"></script>
 </x-app-layout>

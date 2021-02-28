@@ -40,8 +40,8 @@ class SubcategoryController extends Controller
     {
         $category = Category::find($request->input('idCategory'));
         $subcategory = new Subcategory();
-        $subcategory->nm_title = $request->input('nmTitle');
         $subcategory->Category()->associate($category);
+        $subcategory->nm_title = $request->input('nmTitle');
         $subcategory->save();
 
         return redirect("/subcategory")->with('response', 'Subcategoria cadastrada com sucesso!');
@@ -94,5 +94,10 @@ class SubcategoryController extends Controller
             
             return redirect("/subcategory")->with('response', 'Subategoria excluída com sucesso!');
         }
+    }
+
+    public function listSubcategoryByCategory($idCategory) {
+        $subcategories = Subcategory::where('id_category', '=', $idCategory)->get();
+        return response()->json($subcategories);
     }
 }

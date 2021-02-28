@@ -40,9 +40,5 @@
         </div>
     </div>
     @endif
-    <script>
-        $(document).ready(function() {
-            $('#responseModal').modal('show');
-        });
-    </script>
+    <script src="{{ asset('js/response.js') }}"></script>
 </x-app-layout>
