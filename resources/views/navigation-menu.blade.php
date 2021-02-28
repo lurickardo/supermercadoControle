@@ -15,7 +15,7 @@
                         {{ __('Início') }}
                     </x-jet-nav-link>
                 </div>
-                
+
             </div>
 
             <div class="hidden sm:flex sm:items-center sm:ml-6">
@@ -34,6 +34,11 @@
                         </x-slot>
 
                         <x-slot name="content">
+                            <x-jet-dropdown-link href="{{ route('profile.show') }}">
+                                {{ __('Editar') }}
+                            </x-jet-dropdown-link>
+
+                            <div class="border-t border-gray-100"></div>
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
                                 <x-jet-dropdown-link href="{{ route('logout') }}" onclick="event.preventDefault();
