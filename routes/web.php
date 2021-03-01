@@ -34,6 +34,7 @@ Route::prefix('subcategory')->group(function () {
 
 Route::prefix('product')->group(function () {
     Route::get('/', [ProductController::class, 'index'])->middleware('auth');
+    Route::any('/search', [ProductController::class, 'search'])->middleware('auth');
     Route::get('/create', [ProductController::class, 'create'])->middleware('auth');
     Route::post('/create/register', [ProductController::class, 'store'])->middleware('auth');
     Route::get('/update/{id}', [ProductController::class, 'edit'])->middleware('auth');
