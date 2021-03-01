@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\ProductExport;
@@ -14,6 +15,7 @@ use App\Actions\Util;
 
 class ProductController extends Controller
 {
+    private int $paginate = 5;
     /**
      * Display a listing of the resource.
      *
@@ -21,10 +23,13 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::all();
-        Excel::store(new ProductExport(), "listProducts/lista_de_produtos.csv");
-        Excel::store(new ProductExport(), "listProducts/lista_de_produtos.pdf");
-        return view("layouts.product.listProduct", compact('products'));
+        $products = Product::paginate($this->paginate);
+        $categories = Category::all();
+
+        Excel::store(new ProductExport($products), "listProducts/lista_de_produtos.csv");
+        Excel::store(new ProductExport($products), "listProducts/lista_de_produtos.pdf");
+
+        return view("layouts.product.listProduct", compact('products', 'categories'));
     }
 
     /**
@@ -54,13 +59,13 @@ class ProductController extends Controller
         $product->Subcategory()->associate($subcategory);
         $product->nm_title = $request->input('nmTitle');
         $product->ds_product = $request->input('dsProduct');
-        $product->vl_product = str_replace(",",".", $request->input('vlProduct'));
+        $product->vl_product = str_replace(",", ".", $request->input('vlProduct'));
         $product->nm_tag = Util::formatCommaToJson($request->input('nmTag'));
         $product->ck_status = $request->input('ckStatus');
         $product->save();
         $product->nm_image = $request->file('imgProduct')->store("product/$product->id_product");
         $product->save();
-        
+
         return redirect("/product")->with('response', 'Produto cadastrado com sucesso!');
     }
 
@@ -97,16 +102,16 @@ class ProductController extends Controller
         $product->Subcategory()->associate($subcategory);
         $product->nm_title = $request->input('nmTitle');
         $product->ds_product = $request->input('dsProduct');
-        $product->vl_product = str_replace(",",".", $request->input('vlProduct'));
+        $product->vl_product = str_replace(",", ".", $request->input('vlProduct'));
         $product->nm_tag = Util::formatCommaToJson($request->input('nmTag'));
         $product->ck_status = $request->input('ckStatus');
         $product->save();
-        if($request->file('imgProduct')){
+        if ($request->file('imgProduct')) {
             Storage::delete($product->nm_image);
             $product->nm_image = $request->file('imgProduct')->store("product/$product->id_product");
             $product->save();
         }
-        
+
         return redirect("/product")->with('response', 'Produto alterado com sucesso!');
     }
 
@@ -125,5 +130,28 @@ class ProductController extends Controller
 
             return redirect("/product")->with('response', 'Produto excluído com sucesso!');
         }
+    }
+
+    public function search(Request $request)
+    {
+        $filters = $request->except('_token');
+
+        $categories = Category::all();
+
+        if(!is_null($request->idCategory)) {
+            $products = Product::select('tb_product.*')
+            ->join('tb_category', 'tb_product.id_category', '=', 'tb_category.id_category')
+            ->where('tb_category.id_category', '=', $request->idCategory)
+            ->where("tb_product.nm_title", 'like', "%$request->nmTitle%")->paginate($this->paginate);
+        } else {
+            $products = Product::select('tb_product.*')
+            ->join('tb_category', 'tb_product.id_category', '=', 'tb_category.id_category')
+            ->where("tb_product.nm_title", 'like', "%$request->nmTitle%")->paginate($this->paginate);
+        }
+        
+        Excel::store(new ProductExport($products), "listProducts/lista_de_produtos.csv");
+        Excel::store(new ProductExport($products), "listProducts/lista_de_produtos.pdf");
+
+        return view("layouts.product.listProduct", compact('products', 'categories', 'filters'));
     }
 }
