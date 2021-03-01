@@ -28,7 +28,7 @@
             {{ __('Alterado com sucesso.') }}
         </x-jet-action-message>
 
-        <x-jet-button wire:loading.attr="disabled" wire:target="photo">
+        <x-jet-button class="bg-blue-600 hover:bg-blue-700" wire:loading.attr="disabled" wire:target="photo">
             {{ __('Alterar') }}
         </x-jet-button>
     </x-slot>

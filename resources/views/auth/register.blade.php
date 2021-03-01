@@ -44,7 +44,7 @@
                     {{ __('Já possui uma conta? Conecte-se') }}
                 </a>
 
-                <x-jet-button class="ml-4">
+                <x-jet-button class="ml-4 bg-blue-600 hover:bg-blue-700">
                     {{ __('Cadastrar') }}
                 </x-jet-button>
             </div>

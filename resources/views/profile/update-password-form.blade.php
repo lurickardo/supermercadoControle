@@ -27,11 +27,11 @@
     </x-slot>
 
     <x-slot name="actions">
-        <x-jet-action-message class="mr-3" on="saved">
+        <x-jet-action-message class="mr-3 " on="saved">
             {{ __('Senha alterada com sucesso.') }}
         </x-jet-action-message>
 
-        <x-jet-button>
+        <x-jet-button class="bg-blue-600 hover:bg-blue-700">
             {{ __('Alterar') }}
         </x-jet-button>
     </x-slot>
